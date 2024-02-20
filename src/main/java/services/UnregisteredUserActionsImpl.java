@@ -1,7 +1,7 @@
 package services;
 
 import infrastructure.ArticleRepository;
-import model.Article;
+import model.ArticleData;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -16,15 +16,15 @@ public class UnregisteredUserActionsImpl implements UnregisteredUserActions{
 
     public List<String> shortArticlesView(){
         return articles.getAllArticles().stream()
-                .flatMap(articleDTO -> Stream.of(articleDTO.getArticle().getTitle()
-                        , articleDTO.getArticle().getBrief()))
+                .flatMap(articleDAO -> Stream.of(articleDAO.article().articleData().title()
+                        , articleDAO.article().articleData().brief()))
                 .toList();
     }
 
-    public List<Article> fullArticlesView(String title){
+    public List<ArticleData> fullArticlesView(String title){
         return articles.getAllArticles().stream()
-                .flatMap(articleDTO -> Stream.of(articleDTO.getArticle()))
-                .filter(article -> article.getTitle().equals(title))
+                .flatMap(articleDAO -> Stream.of(articleDAO.article().articleData()))
+                .filter(article -> article.title().equals(title))
                 .toList();
     }
 }

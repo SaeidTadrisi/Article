@@ -1,12 +1,6 @@
 package model;
 
-public class Category {
+import java.util.Objects;
 
-    private final String title;
-    private final String description;
-
-    public Category(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
+public record Category(String title, String description) {
 }

@@ -1,19 +1,26 @@
+import model.UserData;
 import model.User;
-import model.UserDTO;
 import infrastructure.UserRepository;
 
 public class FakeUserRepository implements UserRepository {
 
     @Override
     public void register(User user) {
+
     }
 
     @Override
-    public UserDTO login(String username, String password) {
+    public boolean login(String username, String password) {
+        return false;
+    }
+
+    @Override
+    public void changePassword(User user) {
+
+    }
+
+    @Override
+    public User findUserById(String userId) {
         return null;
-    }
-
-    @Override
-    public void changePassword(String newPassword) {
     }
 }

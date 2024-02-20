@@ -1,1 +1,1 @@
-# model.Article
+# model.ArticleData
