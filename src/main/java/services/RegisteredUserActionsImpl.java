@@ -1,66 +1,62 @@
 package services;
 
+import model.ArticleDTO;
 import infrastructure.ArticleRepository;
 import infrastructure.CategoryRepository;
 import infrastructure.TagRepository;
-import infrastructure.UserRepository;
 import model.Article;
-import model.ArticleDTO;
 import model.Category;
 import model.Tag;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class RegisteredUserActionsImpl implements RegisteredUserActions{
 
-    private final UserRepository users;
+    private final String userId;
     private final ArticleRepository articles;
     private final CategoryRepository categories;
     private final TagRepository tags;
 
-    public RegisteredUserActionsImpl(UserRepository users,
+    public RegisteredUserActionsImpl(String userId,
                                      ArticleRepository articles,
                                      CategoryRepository categories,
                                      TagRepository tags) {
-        this.users = users;
+        this.userId = userId;
         this.articles = articles;
         this.categories = categories;
         this.tags = tags;
     }
 
-    public List<Article> userArticleView(String userId) {
-        return articles.getAllArticles().stream()
-                .filter(articleDTO -> articleDTO.getAuthorId().equals(userId))
-                .flatMap(articleDTO -> Stream.of(articleDTO.getArticle()))
-                .toList();
+    public List<ArticleDTO> userArticleView() {
+        return articles.findArticleByAuthorId(userId);
     }
 
-    public void createNewArticle(ArticleDTO article){
-        articles.saveArticle(article);
+    public Article createArticle(Article article){
+        articles.saveArticle(userId, article, LocalDate.now(), false);
+        return article;
     }
 
-    public void userArticleEdit(ArticleDTO oldArticle, ArticleDTO newArticle){
-        articles.editArticle(oldArticle, newArticle);
+    @Override
+    public Article editArticle(ArticleDTO articleDTO) {
+        articles.editArticle(articleDTO, LocalDate.now());
+        return articleDTO.article();
     }
 
-    public List<Category> categoriesView(){
-        return categories.getAllCategories();
+    @Override
+    public void changePublishStatus(ArticleDTO articleDTO, boolean isPublished) {
+        articles.publishStatus(articleDTO.articleId(), isPublished, LocalDate.now());
     }
 
-    public List<Tag> tagsView(){
-        return tags.getAllTags();
-    }
-
-    public void createNewTag(Tag tag){
+    @Override
+    public Tag saveNewTag(Tag tag) {
         tags.saveNewTag(tag);
+        return tag;
     }
 
-    public void createNewCategory(Category category){
+    @Override
+    public Category saveNewCategory(Category category) {
         categories.saveNewCategory(category);
-    }
-
-    public void changeUserPassword(String password){
-        users.changePassword(password);
+        return category;
     }
 }

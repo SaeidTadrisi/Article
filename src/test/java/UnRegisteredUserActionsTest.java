@@ -1,4 +1,4 @@
-import model.Article;
+import model.ArticleData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.UnregisteredUserActions;
@@ -29,12 +29,9 @@ class UnRegisteredUserActionsTest {
 
     @Test
     void should_can_view_article_as_full_with_article_title() {
-        List<Article> articles = unregisteredUserActions.fullArticlesView("Java");
-        List<Article> exceptedArticle = List.of(new Article("Java", "Learning Java Fast",
-                "It's complete book for learning java.",
-                LocalDate.of(2015, 5, 25),
-                LocalDate.of(2020, 12, 20),
-                LocalDate.of(2021, 2, 20)));
+        List<ArticleData> articles = unregisteredUserActions.fullArticlesView("Java");
+        List<ArticleData> exceptedArticle = List.of(new ArticleData("Java", "Learning Java Fast",
+                "It's complete book for learning java."));
 
         assertThat(articles).isEqualTo(exceptedArticle);
     }

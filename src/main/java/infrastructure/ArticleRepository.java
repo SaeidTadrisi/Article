@@ -3,10 +3,13 @@ package infrastructure;
 import model.Article;
 import model.ArticleDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ArticleRepository {
     List<ArticleDTO> getAllArticles();
-    void saveArticle(ArticleDTO articleDTO);
-    void editArticle(ArticleDTO oldArticle, ArticleDTO newArticle);
+    List<ArticleDTO> findArticleByAuthorId(String userId);
+    void saveArticle(String userId, Article article, LocalDate createDate, boolean isPublished);
+    void editArticle(ArticleDTO editedArticle, LocalDate lastUpdateDate);
+    void publishStatus(int articleId, boolean isPublished, LocalDate publishDate);
 }

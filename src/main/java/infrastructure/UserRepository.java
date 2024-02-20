@@ -1,13 +1,15 @@
 package infrastructure;
 
+import model.UserData;
 import model.User;
-import model.UserDTO;
 
 public interface UserRepository {
 
     void register(User user);
 
-    UserDTO login(java.lang.String username, java.lang.String password);
+    boolean login(String username, String password);
 
-    void changePassword(java.lang.String newPassword);
+    void changePassword(User user);
+
+    User findUserById(String userId);
 }
